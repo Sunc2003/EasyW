@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* 1. TIPOGRAFÍA SCANDIA */
+  @font-face {
+    font-family: 'Scandia';
+    src: url('/fonts/Scandia-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Scandia';
+    src: url('/fonts/Scandia-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { 
+    background: #fff; 
+    font-family: 'Scandia', sans-serif; 
+  }
+
+  /* 2. LÓGICA DE DIMENSIONES DINÁMICAS */
+  .hoja { 
+    background: #fff; 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden;
+
+    {% if especificaciones|length <= 7 %}
+      width: 1280px; 
+      height: 1103px; 
+    {% else %}
+      width: 1225px; 
+      height: 1475px; 
+    {% endif %}
+  }
+
+  /* 3. ESTRUCTURA */
+  .header img { 
+    width: 100%; 
+    display: block; 
+    height: auto; 
+  }
+
+  .contenido { 
+    flex: 1; 
+    padding: 0 40px; 
+    position: relative; 
+  }
+
+  .logo { 
+    position: absolute; 
+    top: 15px; 
+    left: 40px; 
+    width: 250px; 
+    height: 80px; 
+    display: flex;
+    align-items: center;
+  }
+  .logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  .foto { 
+    position: absolute; 
+    top: 10px; 
+    right: 40px; 
+    width: 300px; /* Juan aca debes modificar ancho*/
+    height: 300px;  /* Juan aca debes mofgdificar Alto*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .foto img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  .titulo { 
+    margin-top: 124px; 
+    width: 70%; 
+    padding: 10px 0; 
+  }
+  
+  /* PRODUCTO EN MAYÚSCULAS */
+  .product-title { 
+    font-size: 30px; 
+    font-weight: bold; /* Corregido punto y coma */
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: #000;
+    word-wrap: break-word;
+  }
+
+  .sku-line {
+    font-size: 18px;
+    color: #555;
+    margin-top: 5px;
+    font-weight: normal;
+  }
+
+  /* TABLA EN MAYÚSCULAS */
+  .tabla { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 105px; 
+    text-transform: uppercase; /* Fuerza mayúsculas en toda la tabla */
+  }
+  
+  td { 
+    padding: 15px; 
+    border: 1px solid #eee; 
+    font-size: 18px; 
+    vertical-align: top;
+    text-align: center;
+  }
+  
+  .label { 
+    background: #f5f5f5; 
+    font-weight: bold; 
+    width: 35%; 
+    color: #222;
+    text-align: left;
+  }
+
+  .footer { 
+    margin-top: auto; 
+  }
+  .footer img { 
+    width: 100%; 
+    display: block; 
+    height: auto; 
+  }
+
+</style>
+</head>
+<body>
+
+<div class="hoja">
+  <div class="header">
+    <img src="{{ header_img }}">
+  </div>
+
+  <div class="contenido">
+    <div class="logo">
+      {% if logo_marca %}
+      <img src="{{ logo_marca }}">
+      {% endif %}
+    </div>
+
+    <div class="foto">
+      {% if foto_producto %}
+      <img src="{{ foto_producto }}">
+      {% endif %}
+    </div>
+
+    <div class="titulo">
+      <h1 class="product-title">{{ nombre }}</h1>
+      <div class="sku-line">
+        SKU: {{ sku }} {% if modelo %} | Modelo: {{ modelo }}{% endif %}
+      </div>
+    </div>
+
+    <table class="tabla">
+      {% for clave, valor in especificaciones.items() %}
+      <tr>
+        <td class="label">{{ clave }}</td>
+        <td>
+          {% if valor is iterable and valor is not string %}
+            {{ valor | join(", ") }}
+          {% else %}
+            {{ valor }}
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="footer">
+    <img src="{{ footer_img }}">
+  </div>
+</div>
+
+</body>
+</html>

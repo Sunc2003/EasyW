@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* 1. TIPOGRAFÍA SCANDIA (Igual que la ficha normal) */
+  @font-face {
+    font-family: 'Scandia';
+    src: url('/fonts/Scandia-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Scandia';
+    src: url('/fonts/Scandia-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body { 
+    background: #fff; 
+    font-family: 'Scandia', sans-serif; 
+  }
+  
+  
+  .hoja {
+    width: 1225px;
+    height: 1475px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .header img { width: 100%; display: block; }
+
+  .contenido { 
+    flex: 1; 
+    padding: 0 40px; 
+    position: relative;
+  }
+
+  /* TÍTULO Y SKUS */
+  .info-superior { 
+    margin-top: 50px; /* Menos margen que la individual porque no hay foto flotante */
+    margin-bottom: 20px; 
+  }
+  
+  .product-title { 
+    font-size: 28px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    color: #000;
+    line-height: 1.1;
+  }
+  
+  .sku-list { 
+    font-size: 13px; 
+    color: #555; 
+    margin-top: 10px; 
+    line-height: 1.4; 
+    width: 90%; 
+  }
+
+  /* LA TABLA DE MATRIZ (Estilo Fixman/Marsella) */
+  .tabla-matriz {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    font-size: 12px; /* Un poco más grande para legibilidad */
+  }
+
+  .tabla-matriz th {
+    background-color: #e0e0e0;
+    padding: 12px 8px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    text-align: center;
+    text-transform: uppercase;
+    color: #333;
+  }
+
+  .tabla-matriz td {
+    padding: 10px 8px;
+    border: 1px solid #eee;
+    text-align: center;
+    vertical-align: middle;
+    color: #444;
+  }
+
+  /* Efecto Zebra */
+  .tabla-matriz tbody tr:nth-child(even) { 
+    background-color: #f9f9f9; 
+  }
+
+  /* FOOTER */
+  .footer { 
+    margin-top: auto; 
+    line-height: 0; 
+  }
+  .footer img { 
+    width: 100%; 
+    display: block; 
+  }
+
+</style>
+</head>
+<body>
+<div class="hoja">
+  <div class="header">
+    <img src="{{ header_img }}">
+  </div>
+
+  <div class="contenido">
+    <div class="info-superior">
+      <h1 class="product-title">{{ nombre }}</h1>
+      <p class="sku-list"><strong>SKUS:</strong> {{ skus_concatenados }}</p>
+    </div>
+
+    <table class="tabla-matriz">
+      <thead>
+        <tr>
+          {% for h in datos_matriz[0] %}
+            <th>{{ h }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for fila in datos_matriz[1:] %}
+        <tr>
+          {% for celda in fila %}
+            <td>{{ celda }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <img src="{{ footer_img }}">
+  </div>
+</div>
+</body>
+</html>
